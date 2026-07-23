@@ -1,0 +1,49 @@
+services:
+  postgres_db:
+    image: postgres:16-alpine
+    container_name: messenger_db
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "${POSTGRES_PORT:-5434}:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  # Бэкенд NestJS
+  backend:
+    build:
+      context: ../../
+      dockerfile: ./deploy/dev/backend.Dockerfile
+    container_name: messenger_backend
+    restart: always
+    ports:
+      - "${BACKEND_PORT}:3000"
+    depends_on:
+      - postgres_db
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+    volumes:
+      - ../../backend:/app
+      - /app/node_modules
+      -
+
+  # Фронтенд React
+  frontend:
+    build:
+      context: ../../
+      dockerfile: ./deploy/dev/frontend.Dockerfile
+    container_name: messenger_frontend
+    restart: always
+    ports:
+      - "${FRONTEND_PORT}:5173"
+    depends_on:
+      - backend
+    volumes:
+      - ../../frontend:/app
+      - /app/node_modules
+
+volumes:
+  pg_data:
