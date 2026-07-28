@@ -8,37 +8,105 @@ datasource db {
 }
 
 model User {
-  id   String @id @default(uuid())
-  name String
+  id String @id @default(uuid())
 
-  email    String @unique
+  firstName  String  @map("first_name")
+  lastName   String  @map("last_name")
+  middleName String? @map("middle_name")
+
+  login    String @unique
   password String
+
+  avatar String?
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  sentMessages     Message[] @relation("MessageSender")
-  receivedMessages Message[] @relation("MessageReceiver")
+  userChats    UserChat[]
+  sentMessages Message[]     @relation("MessageSender")
+  messageReads MessageRead[]
 
   @@map("users")
+}
+
+model Chat {
+  id String @id @default(uuid())
+
+  type ChatType @default(PRIVATE) @map("chat_type")
+
+  title  String?
+  avatar String?
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt() @map("updated_at")
+
+  userChats UserChat[]
+  messages  Message[]
+
+  @@map("chats")
+}
+
+model UserChat {
+  userId String @map("user_id")
+  chatId String @map("chat_id")
+
+  leftAt   DateTime?
+  joinedAt DateTime  @default(now())
+
+  userRole UserRole @default(PARTICIPANT) @map("user_role")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  chat Chat @relation(fields: [chatId], references: [id], onDelete: Cascade)
+
+  @@id([userId, chatId])
+  @@index([userId])
+  @@index([chatId])
+  @@map("user_chats")
 }
 
 model Message {
   id String @id @default(uuid())
 
-  isRead      Boolean @map("is_read")
-  messageText String  @map("message_text")
+  chatId   String @map("chat_id")
+  senderId String @map("sender_id")
+
+  chat   Chat @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  sender User @relation("MessageSender", fields: [senderId], references: [id], onDelete: Cascade)
+
+  text String
 
   createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  updatedAt DateTime @updatedAt() @map("updated_at")
 
-  senderId   String
-  receiverId String
+  messageReads MessageRead[]
 
-  sender   User @relation("MessageSender", fields: [senderId], references: [id], onDelete: Cascade)
-  receiver User @relation("MessageReceiver", fields: [receiverId], references: [id], onDelete: Cascade)
-
-  @@index([createdAt])
+  @@index([chatId])
   @@index([senderId])
-  @@index([receiverId])
+  @@index([createdAt])
+  @@map("messages")
+}
+
+model MessageRead {
+  messageId String @map("message_id")
+  userId    String @map("user_id")
+
+  readAt DateTime @map("read_at")
+
+  message Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([messageId, userId])
+  @@index([userId])
+  @@map("message_reads")
+}
+
+enum UserRole {
+  OWNER
+  ADMIN
+  PARTICIPANT
+}
+
+enum ChatType {
+  PRIVATE
+  GROUP
 }

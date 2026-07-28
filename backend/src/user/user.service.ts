@@ -67,6 +67,7 @@ export class UserService {
     );
 
     return {
+      id,
       accessToken,
       refreshToken,
     };
@@ -87,7 +88,7 @@ export class UserService {
   async register(res: Response, dto: RegisterRequestDto) {
     const existUser = await this.prismaService.user.findUnique({
       where: {
-        email: dto.email,
+        login: dto.login,
       },
     });
 
@@ -111,7 +112,7 @@ export class UserService {
   async login(res: Response, dto: LoginRequestDto) {
     const user = await this.prismaService.user.findUnique({
       where: {
-        email: dto.email,
+        login: dto.login,
       },
     });
 

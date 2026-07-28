@@ -1,21 +1,21 @@
-import { IsEmail, IsNotEmpty, Length } from 'class-validator';
+import { IsNotEmpty, IsString, Length } from 'class-validator';
 
 export class RegisterRequestDto {
   @IsNotEmpty({
     message: 'Поле Имя обязательно',
   })
-  name: string;
+  firstName: string;
+
+  @IsNotEmpty({
+    message: 'Поле Фамилия обязательно',
+  })
+  lastName: string;
 
   @IsNotEmpty({
     message: 'Поле Email обязательно для заполнения',
   })
-  @IsEmail(
-    {},
-    {
-      message: 'Некорректный адрес электронной почты',
-    },
-  )
-  email: string;
+  @IsString()
+  login: string;
 
   @IsNotEmpty({
     message: 'Поле Пароль обязательно для заполнения',
