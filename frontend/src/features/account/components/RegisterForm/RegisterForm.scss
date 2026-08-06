@@ -1,0 +1,21 @@
+.input__box {
+  display: grid;
+
+  row-gap: 8px;
+}
+
+.protection-level {
+  display: flex;
+  align-items: center;
+
+  height: 5px;
+
+  column-gap: 4px;
+
+  span {
+    flex: 1;
+    border-radius: var(--radius-round);
+    border: 1px solid var(--color-border);
+    height: 100%;
+  }
+}

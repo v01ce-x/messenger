@@ -57,19 +57,19 @@ export class UserService {
     });
   }
 
-  private auth(res: Response, id: string) {
+  private auth(res: Response, id: string, remember: boolean) {
     const { accessToken, refreshToken } = this.generateTokens(id);
 
-    this.setCookie(
-      res,
-      refreshToken,
-      new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
-    );
+    if (remember) {
+      this.setCookie(
+        res,
+        refreshToken,
+        new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+      );
+    }
 
     return {
-      id,
       accessToken,
-      refreshToken,
     };
   }
 
@@ -106,7 +106,7 @@ export class UserService {
       },
     });
 
-    return this.auth(res, user.id);
+    return this.auth(res, user.id, true);
   }
 
   async login(res: Response, dto: LoginRequestDto) {
@@ -126,13 +126,14 @@ export class UserService {
       throw new UnauthorizedException('Неверные данные почты или пароля');
     }
 
-    return this.auth(res, user.id);
+    return this.auth(res, user.id, dto.remember);
   }
 
   async refresh(req: Request, res: Response) {
     const refreshToken = req.cookies['refreshToken'] as string;
 
     if (!refreshToken) {
+      await this.logout(res);
       throw new UnauthorizedException('Ваша сессия истекла');
     }
 
@@ -150,7 +151,7 @@ export class UserService {
       throw new NotFoundException('Пользователь не найден');
     }
 
-    return this.auth(res, user.id);
+    return this.auth(res, user.id, true);
   }
 
   async logout(res: Response) {

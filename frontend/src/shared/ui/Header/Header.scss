@@ -1,0 +1,48 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: var(--color-navy);
+
+  padding: 10px 24px;
+
+  &__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
+  }
+
+  &__avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 36px;
+    height: 36px;
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    background: linear-gradient(135deg, var(--color-primary), var(--color-navy-light));
+
+    border-radius: var(--radius-round);
+  }
+
+  &__profile {
+    display: flex;
+    align-items: center;
+
+    column-gap: 10px;
+    padding: 6px 16px 6px 8px;
+
+    border-radius: var(--radius-round);
+    cursor: pointer;
+    transition: 0.3s;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+  }
+}

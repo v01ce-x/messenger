@@ -8,7 +8,7 @@ import type { Response, Request } from 'express';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post('register')
+  @Post('/register')
   async register(
     @Res({ passthrough: true }) res: Response,
     @Body() dto: RegisterRequestDto,
@@ -16,7 +16,7 @@ export class UserController {
     return await this.userService.register(res, dto);
   }
 
-  @Post('login')
+  @Post('/login')
   async login(
     @Res({ passthrough: true }) res: Response,
     @Body() dto: LoginRequestDto,
@@ -24,12 +24,12 @@ export class UserController {
     return await this.userService.login(res, dto);
   }
 
-  @Post('refresh')
+  @Post('/refresh')
   async refresh(@Req() req: Request, @Res() res: Response) {
     return await this.userService.refresh(req, res);
   }
 
-  @Post('logout')
+  @Post('/logout')
   async logout(@Res() res: Response) {
     return await this.userService.logout(res);
   }

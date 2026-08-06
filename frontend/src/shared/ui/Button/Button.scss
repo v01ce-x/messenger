@@ -1,0 +1,25 @@
+.button--primary {
+  width: 100%;
+  font-size: 0.95rem;
+  font-weight: 600;
+
+  background:
+          linear-gradient(135deg,
+          var(--color-primary),
+          var(--color-primary-dark));
+  color: var(--color-primary-contrast);
+
+  padding: 12px 22px;
+
+  border-radius: var(--radius-md);
+  box-shadow: rgba(15, 157, 142, 0.55) 0 10px 20px -8px;
+  transition: 0.3s;
+
+  &:hover {
+    box-shadow: rgba(15, 157, 142, 0.55) 0 10px 30px -8px;;
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
