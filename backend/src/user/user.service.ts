@@ -157,4 +157,25 @@ export class UserService {
   async logout(res: Response) {
     this.setCookie(res, 'refreshToken', new Date(0));
   }
+
+  async profile(id: string) {
+    const user = await this.prismaService.user.findUnique({
+      where: {
+        id,
+      },
+      select: {
+        firstName: true,
+        lastName: true,
+        middleName: true,
+        login: true,
+        avatar: true,
+      },
+    });
+
+    if (!user) {
+      throw new NotFoundException('Пользователь не найден');
+    }
+
+    return user;
+  }
 }

@@ -10,3 +10,9 @@ export { default as GoogleIcon } from './google.svg?react';
 export { default as UserIcon } from './user.svg?react';
 // @ts-ignore
 export { default as SearchIcon } from './search.svg?react';
+// @ts-ignore
+export { default as EditIcon } from './edit.svg?react';
+// @ts-ignore
+export { default as CameraIcon } from './camera.svg?react';
+// @ts-ignore
+export { default as InfoIcon } from './info.svg?react';

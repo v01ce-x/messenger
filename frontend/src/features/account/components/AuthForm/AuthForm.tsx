@@ -48,7 +48,7 @@ const AuthForm = (props: Props) => {
         </a>
       </div>
 
-      <Button className="button--primary">Войти</Button>
+      <Button className="button button--primary">Войти</Button>
     </form>
   );
 };

@@ -98,7 +98,7 @@ const RegisterForm = (props: Props) => {
         error={formState.errors.confirmPassword?.message}
         {...register('confirmPassword')}
       />
-      <Button className="button--primary">Зарегистрироваться</Button>
+      <Button className="button button--primary">Зарегистрироваться</Button>
     </form>
   );
 };

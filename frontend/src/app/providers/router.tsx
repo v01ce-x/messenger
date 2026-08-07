@@ -1,5 +1,5 @@
 import { createBrowserRouter } from 'react-router';
-import { AuthPage, ChatPage, RegisterPage } from '@/pages';
+import { AuthPage, ChatPage, ProfilePage, RegisterPage } from '@/pages';
 import { ProtectedRoute } from '@/app/providers';
 import { Routes } from '@/shared/lib';
 
@@ -18,6 +18,10 @@ export const router = createBrowserRouter([
       {
         path: Routes.chat,
         element: <ChatPage />,
+      },
+      {
+        path: Routes.profile,
+        element: <ProfilePage />,
       },
     ],
   },

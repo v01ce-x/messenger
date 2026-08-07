@@ -3,6 +3,7 @@ import type {
   LoginSchema,
   RegisterSchema,
   ResponseToken,
+  UserProfile,
 } from '@/features/account';
 
 export const userService = {
@@ -11,4 +12,6 @@ export const userService = {
 
   register: (data: Omit<RegisterSchema, 'confirmPassword'>) =>
     api.post<ResponseToken>('/user/register', data).then((res) => res.data),
+
+  profile: () => api.get<UserProfile>('/user/profile').then((res) => res.data),
 };
