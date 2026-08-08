@@ -2,10 +2,12 @@ import {
   Body,
   Controller,
   Get,
+  Patch,
   Post,
   Req,
   Res,
   UploadedFile,
+  UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
 import { UserService } from './user.service';
@@ -14,8 +16,12 @@ import { LoginRequestDto } from './dto/login.dto';
 import type { Response, Request } from 'express';
 import { Authorization } from './decorators/authorization.decorator';
 import { Authorized } from './decorators/authorized.decorator';
-import { FileInterceptor } from '@nestjs/platform-express';
+import {
+  FileFieldsInterceptor,
+  FileInterceptor,
+} from '@nestjs/platform-express';
 import { UploadAvatarPipe } from './pipes/upload-avatar.pipe';
+import { EditableDataDto } from './dto/editable-data.dto';
 
 @Controller('user')
 export class UserController {
@@ -72,5 +78,30 @@ export class UserController {
     @Authorized('id') currentUserId: string,
   ) {
     return await this.userService.uploadUserFile(file, currentUserId, 'cover');
+  }
+
+  @Patch('profile')
+  @Authorization()
+  @UseInterceptors(
+    FileFieldsInterceptor([
+      { name: 'avatar', maxCount: 1 },
+      { name: 'cover', maxCount: 1 },
+    ]),
+  )
+  async editProfile(
+    @Authorized('id') currentUserId: string,
+    @Body() dto: EditableDataDto,
+    @UploadedFiles()
+    files: { avatar?: Express.Multer.File[]; cover?: Express.Multer.File[] },
+  ) {
+    const avatarFile = files.avatar?.[0];
+    const coverFile = files.cover?.[0];
+
+    return await this.userService.editProfile(
+      currentUserId,
+      dto,
+      avatarFile,
+      coverFile,
+    );
   }
 }

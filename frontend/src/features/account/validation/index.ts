@@ -1,2 +1,3 @@
 export * from './auth.schema.ts';
 export * from './register.schema.ts';
+export * from './edit-profile.schema.ts';

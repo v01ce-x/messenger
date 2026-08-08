@@ -62,7 +62,10 @@ const ProfilePage = () => {
                   <SettingsIcon className="icon__settings" />
                   <span>Настройки</span>
                 </Button>
-                <Button className="button button--primary profile__button--edit-profile">
+                <Button
+                  onClick={() => openModal('editProfile')}
+                  className="button button--primary profile__button--edit-profile"
+                >
                   <EditIcon className="icon__edit-profile" />
                   <span>Редактировать профиль</span>
                 </Button>
@@ -78,15 +81,15 @@ const ProfilePage = () => {
 
             <div className="card-info__list">
               <div className="card-info__item">
-                <span className="card-info__label">Имя:</span>
-                <span className="card-info__value">
-                  {user.firstName ?? 'Не указано'}
-                </span>
-              </div>
-              <div className="card-info__item">
                 <span className="card-info__label">Фамилия:</span>
                 <span className="card-info__value">
                   {user.lastName ?? 'Не указано'}
+                </span>
+              </div>
+              <div className="card-info__item">
+                <span className="card-info__label">Имя:</span>
+                <span className="card-info__value">
+                  {user.firstName ?? 'Не указано'}
                 </span>
               </div>
               <div className="card-info__item">

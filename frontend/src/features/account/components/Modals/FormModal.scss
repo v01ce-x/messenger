@@ -1,0 +1,17 @@
+.modal__form {
+  &--edit-avatar {
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+
+    row-gap: 20px;
+  }
+
+  &--edit-profile {
+    display: flex;
+    flex-direction: column;
+
+    row-gap: 20px;
+  }
+}

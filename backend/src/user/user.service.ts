@@ -16,6 +16,8 @@ import type { StringValue } from 'ms';
 import type { Response, Request } from 'express';
 import * as path from 'path';
 import * as fs from 'fs';
+import { EditableDataDto } from './dto/editable-data.dto';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class UserService {
@@ -219,6 +221,37 @@ export class UserService {
       data: {
         [prefix]: fileUrl,
       },
+    });
+
+    return {
+      success: true,
+    };
+  }
+
+  async editProfile(
+    currentUserId: string,
+    dto: EditableDataDto,
+    avatarFile?: Express.Multer.File,
+    coverFile?: Express.Multer.File,
+  ) {
+    const updateData: Prisma.UserUpdateInput = {
+      firstName: dto.firstName,
+      lastName: dto.lastName,
+      middleName: dto.middleName ? dto.middleName : null,
+    };
+
+    if (avatarFile) {
+      updateData.avatar = this.saveFileToDisk(avatarFile, 'avatar');
+    }
+    if (coverFile) {
+      updateData.cover = this.saveFileToDisk(coverFile, 'cover');
+    }
+
+    await this.prismaService.user.update({
+      where: {
+        id: currentUserId,
+      },
+      data: updateData,
     });
 
     return {

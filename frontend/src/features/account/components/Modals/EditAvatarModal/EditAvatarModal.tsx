@@ -1,14 +1,9 @@
 import { Modal } from '@/shared/ui';
 import { EditAvatarForm } from '@/features/account';
-import '../EditAvatarModal.scss';
+import type { ModalProps } from '../modal.types.ts';
+import '../FormModal.scss';
 
-interface Props {
-  title: string;
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-const EditAvatarModal = (props: Props) => {
+const EditAvatarModal = (props: ModalProps) => {
   const { title, isOpen, onClose } = props;
 
   return (

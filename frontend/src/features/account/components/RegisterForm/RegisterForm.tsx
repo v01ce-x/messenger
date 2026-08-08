@@ -51,14 +51,6 @@ const RegisterForm = (props: Props) => {
   return (
     <form className={className} onSubmit={handleSubmit(onSubmit)}>
       <FieldInput
-        label="Имя"
-        placeholder="Иван"
-        error={formState.errors.firstName?.message}
-        {...register('firstName')}
-      >
-        <UserIcon className="icon--18" />
-      </FieldInput>
-      <FieldInput
         label="Фамилия"
         placeholder="Иванов"
         error={formState.errors.lastName?.message}
@@ -66,6 +58,15 @@ const RegisterForm = (props: Props) => {
       >
         <UserIcon className="icon--18" />
       </FieldInput>
+      <FieldInput
+        label="Имя"
+        placeholder="Иван"
+        error={formState.errors.firstName?.message}
+        {...register('firstName')}
+      >
+        <UserIcon className="icon--18" />
+      </FieldInput>
+
       <FieldInput
         label="Логин"
         placeholder="login123"

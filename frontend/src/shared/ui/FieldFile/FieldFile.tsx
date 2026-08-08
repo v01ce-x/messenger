@@ -7,6 +7,7 @@ interface FieldFileProps {
   accept?: string;
   maxSizeMb?: number;
   className?: string;
+  label?: string;
 }
 
 const FieldFile = ({
@@ -14,6 +15,7 @@ const FieldFile = ({
   accept,
   maxSizeMb = 5,
   className,
+  label,
 }: FieldFileProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isDragActive, setIsDragActive] = useState(false);
@@ -66,37 +68,44 @@ const FieldFile = ({
   const blockClasses = `field-file ${className || ''}`.trim();
 
   return (
-    <div className={blockClasses}>
-      <div
-        className={dropzoneClasses}
-        onDragEnter={handleDrag}
-        onDragOver={handleDrag}
-        onDragLeave={handleDrag}
-        onDrop={handleDrop}
-        onClick={handleZoneClick}
-      >
-        <input
-          ref={fileInputRef}
-          type="file"
-          className="field-file__native-input"
-          accept={accept}
-          onChange={handleInputChange}
-        />
+    <div className="field">
+      <label className="field__label">{label}</label>
+      <div className={blockClasses}>
+        <div
+          className={dropzoneClasses}
+          onDragEnter={handleDrag}
+          onDragOver={handleDrag}
+          onDragLeave={handleDrag}
+          onDrop={handleDrop}
+          onClick={handleZoneClick}
+        >
+          <input
+            ref={fileInputRef}
+            type="file"
+            className="field-file__native-input"
+            accept={accept}
+            onChange={handleInputChange}
+          />
 
-        <div className="field-file__content">
-          <DownloadIcon className="field-file__icon" />
-          <p className="field-file__text">
-            <span className="field-file__link-text">Нажмите для загрузки</span>{' '}
-            или перетащите файл сюда
-          </p>
-          <span className="field-file__hint">
-            {accept ? `Форматы: ${accept.replace(/\./g, ' ')}` : 'Любые файлы'}{' '}
-            (до {maxSizeMb}МБ)
-          </span>
+          <div className="field-file__content">
+            <DownloadIcon className="field-file__icon" />
+            <p className="field-file__text">
+              <span className="field-file__link-text">
+                Нажмите для загрузки
+              </span>{' '}
+              или перетащите файл сюда
+            </p>
+            <span className="field-file__hint">
+              {accept
+                ? `Форматы: ${accept.replace(/\./g, ' ')}`
+                : 'Любые файлы'}{' '}
+              (до {maxSizeMb}МБ)
+            </span>
+          </div>
         </div>
-      </div>
 
-      {error && <span className="field-file__error-message">{error}</span>}
+        {error && <span className="field-file__error-message">{error}</span>}
+      </div>
     </div>
   );
 };

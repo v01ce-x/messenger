@@ -82,3 +82,20 @@ export const useUpdateCover = () => {
     },
   });
 };
+
+export const useEditProfile = () => {
+  const queryClient = useQueryClient();
+  const { closeModal } = useModal();
+
+  return useMutation({
+    mutationFn: (data: FormData) => userService.editProfile(data),
+
+    onSuccess: () => {
+      void queryClient.invalidateQueries({
+        queryKey: USER_QUERY_KEYS.profile(),
+      });
+
+      closeModal();
+    },
+  });
+}

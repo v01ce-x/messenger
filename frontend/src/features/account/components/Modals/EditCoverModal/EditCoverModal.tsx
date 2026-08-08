@@ -1,14 +1,9 @@
 import { Modal } from '@/shared/ui';
 import { EditCoverForm } from '@/features/account';
-import '../EditAvatarModal.scss';
+import '../FormModal.scss';
+import type { ModalProps } from '../modal.types.ts';
 
-interface Props {
-  title: string;
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-const EditCoverModal = (props: Props) => {
+const EditCoverModal = (props: ModalProps) => {
   const { title, isOpen, onClose } = props;
 
   return (

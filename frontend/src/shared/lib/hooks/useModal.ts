@@ -1,6 +1,6 @@
 import { useSearchParams } from 'react-router';
 
-export type ModalType = 'editAvatar' | 'editCover' | null;
+export type ModalType = 'editAvatar' | 'editCover' | 'editProfile' | null;
 
 export const useModal = () => {
   const [searchParams, setSearchParams] = useSearchParams();

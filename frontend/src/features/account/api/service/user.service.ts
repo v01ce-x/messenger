@@ -35,4 +35,9 @@ export const userService = {
         },
       })
       .then((res) => res.data),
+
+  editProfile: (data: FormData) =>
+    api
+      .patch<{ success: boolean }>('user/profile', data)
+      .then((res) => res.data),
 };
