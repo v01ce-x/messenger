@@ -1,13 +1,18 @@
 import { CameraIcon, EditIcon, InfoIcon, SettingsIcon } from '@/assets/icons';
 import './ProfilePage.scss';
 import { Button } from '@/shared/ui';
-import { useProfile } from '@/features/account';
+import { useLogout, useProfile } from '@/features/account';
 import { useModal } from '@/shared/lib';
 import { adapterUrl } from '@/shared/utils/adapterUrl.ts';
 
 const ProfilePage = () => {
   const { data: user, isLoading } = useProfile();
+  const { mutate: logout } = useLogout();
   const { openModal } = useModal();
+
+  const onSubmit = () => {
+    logout();
+  };
 
   return (
     <>
@@ -106,6 +111,10 @@ const ProfilePage = () => {
               </div>
             </div>
           </div>
+
+          <Button onClick={() => onSubmit()} className="button button--logout">
+            Выйти из аккаунта
+          </Button>
         </div>
       )}
     </>

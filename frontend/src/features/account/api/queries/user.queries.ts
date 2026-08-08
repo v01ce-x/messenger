@@ -38,6 +38,20 @@ export const useRegister = () => {
   });
 };
 
+export const useLogout = () => {
+  const removeToken = useAuthStore((state) => state.removeToken);
+  const navigate = useNavigate();
+
+  return useMutation({
+    mutationFn: userService.logout,
+
+    onSuccess: () => {
+      removeToken();
+      navigate('/login');
+    },
+  });
+};
+
 export const useProfile = () => {
   const isAuth = useAuthStore((state) => state.isAuth);
 
@@ -98,4 +112,4 @@ export const useEditProfile = () => {
       closeModal();
     },
   });
-}
+};

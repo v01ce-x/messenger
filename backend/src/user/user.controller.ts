@@ -51,7 +51,8 @@ export class UserController {
 
   @Post('/logout')
   async logout(@Res() res: Response) {
-    return await this.userService.logout(res);
+    await this.userService.logout(res);
+    return res.status(200).json(res);
   }
 
   @Authorization()

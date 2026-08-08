@@ -42,12 +42,13 @@ api.interceptors.response.use(
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 
         return api(originalRequest);
-      } catch {
+      } catch (refreshError) {
         localStorage.removeItem('accessToken');
-        window.location.href = '/login';
-      }
 
-      return Promise.reject(error);
+        return Promise.reject(refreshError);
+      }
     }
+
+    return Promise.reject(error);
   },
 );

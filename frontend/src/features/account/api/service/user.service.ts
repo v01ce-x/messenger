@@ -13,6 +13,8 @@ export const userService = {
   register: (data: Omit<RegisterSchema, 'confirmPassword'>) =>
     api.post<ResponseToken>('/user/register', data).then((res) => res.data),
 
+  logout: () => api.post('user/logout'),
+
   profile: () => api.get<UserProfile>('/user/profile').then((res) => res.data),
 
   refresh: () =>
