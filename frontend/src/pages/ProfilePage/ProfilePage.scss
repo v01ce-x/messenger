@@ -18,11 +18,13 @@
     position: relative;
     height: 160px;
 
-    background: linear-gradient(
-            120deg,
-            var(--color-navy) 0%,
-            var(--color-primary-dark) 70%,
-            var(--color-primary) 130%);
+    &--bg {
+      background: linear-gradient(
+              120deg,
+              var(--color-navy) 0%,
+              var(--color-primary-dark) 70%,
+              var(--color-primary) 130%);
+    }
   }
 
   &__buttons {
@@ -68,13 +70,20 @@
     justify-content: center;
     align-items: center;
 
+    width: 100%;
+    height: 100%;
+
+    background-color: var(--color-primary-darker);
+
+    border-radius: var(--radius-round);
+  }
+
+  &__avatar-wrap {
     position: relative;
     width: 128px;
     height: 128px;
     font-size: 2rem;
     font-weight: 600;
-
-    background-color: var(--color-primary-darker);
 
     border-radius: var(--radius-round);
     border: 8px solid var(--color-bg)
@@ -119,7 +128,7 @@
   }
 }
 
-.icon__edit-profile {
+.icon__edit-profile, .icon__settings {
   width: 18px;
   height: 18px;
 }

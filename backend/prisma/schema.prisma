@@ -18,6 +18,7 @@ model User {
   password String
 
   avatar String?
+  cover  String?
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")

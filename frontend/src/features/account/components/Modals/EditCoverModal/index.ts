@@ -1,0 +1,1 @@
+export { default as EditCoverModal } from './EditCoverModal.tsx';

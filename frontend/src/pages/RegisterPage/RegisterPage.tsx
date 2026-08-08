@@ -1,26 +1,26 @@
 import { SocialAuth } from '@/shared/ui';
 import { RegisterForm, SOCIAL_AUTH_LIST } from '@/features/account';
-import './RegisterPage.scss';
+import '../AuthPage/AuthPage.scss';
 import { Link } from 'react-router';
 import { Routes } from '@/shared/lib';
 
-const AuthPage = () => {
+const RegisterPage = () => {
   return (
-    <div className="register">
-      <div className="register__header">
-        <h2 className="register__title">Создать аккаунт</h2>
-        <span className="register__sub">
+    <div className="auth">
+      <div className="auth__header">
+        <h2 className="auth__title">Создать аккаунт</h2>
+        <span className="auth__sub">
           Заполните форму, чтобы начать пользоваться Nexo
         </span>
       </div>
 
-      <RegisterForm className="register__form" />
+      <RegisterForm className="auth__form" />
 
-      <span className="register__divider">Или продолжить с</span>
+      <span className="auth__divider">Или продолжить с</span>
 
-      <div className="register__social--list">
+      <div className="auth__social--list">
         {SOCIAL_AUTH_LIST.map((item) => (
-          <SocialAuth key={item.id} className="register__social--item">
+          <SocialAuth key={item.id} className="auth__social--item">
             <div>
               {item.icon}
               <span>{item.label}</span>
@@ -29,7 +29,7 @@ const AuthPage = () => {
         ))}
       </div>
 
-      <p className="register__footer">
+      <p className="auth__footer">
         Уже есть аккаунт?{' '}
         <Link to={Routes.login} className="text-link">
           Войти
@@ -39,4 +39,4 @@ const AuthPage = () => {
   );
 };
 
-export default AuthPage;
+export default RegisterPage;

@@ -9,7 +9,7 @@ const AuthPage = () => {
   return (
     <div className="auth">
       <div className="auth__header">
-        <h2 className="auth__title">С возвражением</h2>
+        <h2 className="auth__title">С возвращением</h2>
         <span className="auth__sub">
           Войдите в аккаунт, чтобы продолжить общение.
         </span>

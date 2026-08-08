@@ -3,8 +3,10 @@ import { Link, Navigate, Outlet } from 'react-router';
 import { FieldInput, Header } from '@/shared/ui';
 import { SearchIcon } from '@/assets/icons';
 import { Routes } from '@/shared/lib';
+import ModalProvider from './ModalProvider';
+import { adapterUrl } from '@/shared/utils';
 
-export const ProtectedRoute = () => {
+const ProtectedRoute = () => {
   const isAuth = useAuthStore((state) => state.isAuth);
   const { data: user } = useProfile();
 
@@ -13,18 +15,32 @@ export const ProtectedRoute = () => {
   }
 
   return (
-    <div>
+    <div className="wrapper">
       <Header>
-        <h1>Nexo</h1>
+        <Link to={Routes.chat}>
+          <h1>Nexo</h1>
+        </Link>
 
         <FieldInput placeholder="Поиск людей и групп" className="field__search">
           <SearchIcon className="icon--18" />
         </FieldInput>
 
         <Link to={Routes.profile} className="header__profile">
-          <span className="header__avatar">
-            {user ? user.firstName[0] + user.lastName[0] : 'NN'}
-          </span>
+          {user ? (
+            user.avatar ? (
+              <img
+                className="header__avatar"
+                src={adapterUrl(user.avatar)}
+                alt="Аватарка"
+              />
+            ) : (
+              <div className="header__avatar" />
+            )
+          ) : (
+            <div className="header__avatar">
+              <span>NN</span>
+            </div>
+          )}
           <span>{user ? user.firstName + ' ' + user.lastName : 'No Name'}</span>
         </Link>
       </Header>
@@ -32,6 +48,10 @@ export const ProtectedRoute = () => {
       <main className="main">
         <Outlet />
       </main>
+
+      <ModalProvider />
     </div>
   );
 };
+
+export default ProtectedRoute;

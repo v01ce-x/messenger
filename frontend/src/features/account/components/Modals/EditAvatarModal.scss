@@ -1,0 +1,11 @@
+.modal {
+  &__form--edit-avatar {
+    display: flex;
+    flex-direction: column;
+
+    height: 300px;
+    width: 100%;
+
+    row-gap: 20px;
+  }
+}

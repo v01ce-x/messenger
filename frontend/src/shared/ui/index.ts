@@ -5,3 +5,5 @@ export * from './FieldCheckbox';
 export * from './Button';
 export * from './SocialAuth';
 export * from './Header';
+export * from './Modal';
+export * from './FieldFile';

@@ -7,5 +7,6 @@ export interface UserProfile {
   lastName: string;
   middleName: string | null;
   login: string;
-  avatar: string;
+  avatar: string | null;
+  cover: string | null;
 }

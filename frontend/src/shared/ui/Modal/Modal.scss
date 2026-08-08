@@ -1,0 +1,62 @@
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100vw;
+  height: 100vh;
+
+  background-color: rgba(0, 0, 0, 0.5);
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    min-height: 400px;
+    min-width: 600px;
+
+    background-color: var(--color-navy);
+
+    padding: 12px;
+
+    border-radius: var(--radius-md);
+  }
+
+  &__header {
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+
+    width: 100%;
+
+    margin-top: 10px;
+  }
+
+  &__title {
+    font-size: 1.5rem;
+  }
+
+  &__icon--close {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+
+    width: 24px;
+    height: 24px;
+
+    color: var(--color-text);
+
+    transition: 0.3s;
+
+    &:hover {
+      transform: scale(1.2) rotate(90deg);
+    }
+  }
+}

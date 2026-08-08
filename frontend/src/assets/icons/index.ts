@@ -16,3 +16,9 @@ export { default as EditIcon } from './edit.svg?react';
 export { default as CameraIcon } from './camera.svg?react';
 // @ts-ignore
 export { default as InfoIcon } from './info.svg?react';
+// @ts-ignore
+export { default as SettingsIcon } from './settings.svg?react';
+// @ts-ignore
+export { default as DownloadIcon } from './download.svg?react';
+// @ts-ignore
+export { default as CrossIcon } from './cross.svg?react';

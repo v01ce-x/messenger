@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ConflictException,
   Injectable,
   NotFoundException,
@@ -13,6 +14,8 @@ import { ConfigService } from '@nestjs/config';
 import { JwtPayload } from './interfaces/jwt.interface';
 import type { StringValue } from 'ms';
 import type { Response, Request } from 'express';
+import * as path from 'path';
+import * as fs from 'fs';
 
 @Injectable()
 export class UserService {
@@ -169,6 +172,7 @@ export class UserService {
         middleName: true,
         login: true,
         avatar: true,
+        cover: true,
       },
     });
 
@@ -177,5 +181,48 @@ export class UserService {
     }
 
     return user;
+  }
+
+  private saveFileToDisk(file: Express.Multer.File, prefix: string): string {
+    const uploadDir = path.join(process.cwd(), 'static');
+
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+    const fileExt = path.extname(file.originalname);
+    const fileName = `${prefix}-${uniqueSuffix}${fileExt}`;
+
+    const filePath = path.join(uploadDir, fileName);
+
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+
+    fs.writeFileSync(filePath, file.buffer);
+
+    return `/static/${fileName}`;
+  }
+
+  async uploadUserFile(
+    file: Express.Multer.File,
+    currentUserId: string,
+    prefix: 'avatar' | 'cover',
+  ) {
+    if (!file) {
+      throw new BadRequestException('Файл не переждан');
+    }
+
+    const fileUrl = this.saveFileToDisk(file, prefix);
+
+    await this.prismaService.user.update({
+      where: {
+        id: currentUserId,
+      },
+      data: {
+        [prefix]: fileUrl,
+      },
+    });
+
+    return {
+      success: true,
+    };
   }
 }
