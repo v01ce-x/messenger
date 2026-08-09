@@ -1,6 +1,6 @@
 import { CameraIcon, EditIcon, InfoIcon, SettingsIcon } from '@/assets/icons';
 import './ProfilePage.scss';
-import { Button } from '@/shared/ui';
+import { Avatar, Button } from '@/shared/ui';
 import { useLogout, useProfile } from '@/features/account';
 import { useModal } from '@/shared/lib';
 import { adapterUrl } from '@/shared/utils/adapterUrl.ts';
@@ -42,16 +42,12 @@ const ProfilePage = () => {
             <div className="profile__identity">
               <div className="profile__info">
                 <div className="profile__avatar-wrap">
-                  {user.avatar ? (
-                    <img
+                  {user && (
+                    <Avatar
+                      title={`${user.firstName} ${user.lastName}`}
+                      avatar={user.avatar}
                       className="profile__avatar"
-                      src={adapterUrl(user.avatar)}
-                      alt="Аватарка"
                     />
-                  ) : (
-                    <div className="profile__avatar">
-                      <span>{user.firstName[0] + user.lastName[0]}</span>
-                    </div>
                   )}
                   <div
                     onClick={() => openModal('editAvatar')}

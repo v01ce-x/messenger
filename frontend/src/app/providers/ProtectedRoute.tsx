@@ -1,10 +1,9 @@
 import { useAuthStore, useProfile } from '@/features/account';
 import { Link, Navigate, Outlet } from 'react-router';
-import { FieldInput, Header } from '@/shared/ui';
+import { Avatar, FieldInput, Header } from '@/shared/ui';
 import { SearchIcon } from '@/assets/icons';
 import { Routes } from '@/shared/lib';
 import ModalProvider from './ModalProvider';
-import { adapterUrl } from '@/shared/utils';
 
 const ProtectedRoute = () => {
   const isAuth = useAuthStore((state) => state.isAuth);
@@ -27,15 +26,11 @@ const ProtectedRoute = () => {
 
         <Link to={Routes.profile} className="header__profile">
           {user ? (
-            user.avatar ? (
-              <img
-                className="header__avatar"
-                src={adapterUrl(user.avatar)}
-                alt="Аватарка"
-              />
-            ) : (
-              <div className="header__avatar" />
-            )
+            <Avatar
+              title={`${user.firstName} ${user.lastName}`}
+              avatar={user.avatar}
+              className="header__avatar"
+            />
           ) : (
             <div className="header__avatar">
               <span>NN</span>

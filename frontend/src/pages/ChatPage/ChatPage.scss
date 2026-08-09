@@ -1,0 +1,38 @@
+.chats {
+  &__aside {
+    display: grid;
+
+    row-gap: 12px;
+    padding: 20px 8px;
+
+    border-right: 2px solid var(--color-surface);
+  }
+
+  &__container {
+    display: grid;
+    grid-template-columns: 2fr 5fr;
+    flex: 1;
+
+    padding: 0 12px;
+  }
+
+  &__list {
+    position: relative;
+
+    display: grid;
+
+    row-gap: 8px;
+  }
+
+  &__item--active {
+    position: absolute;
+
+    height: 76px;
+    width: 4px;
+
+    background-color: var(--color-primary);
+
+    border-radius: var(--radius-lg);
+    transition: 0.3s ease-in-out;
+  }
+}

@@ -1,8 +1,8 @@
-import './Header.scss'
+import './Header.scss';
 import * as React from 'react';
 
 interface Props {
-  children?: React.ReactNode,
+  children?: React.ReactNode;
 }
 
 const Header = (props: Props) => {
@@ -13,6 +13,6 @@ const Header = (props: Props) => {
       <div className="header__inner">{children}</div>
     </header>
   );
-}
+};
 
 export default Header;

@@ -1,1 +1,1 @@
-export * from './useModal.ts'
+export * from './useModal.ts';

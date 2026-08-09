@@ -7,3 +7,5 @@ export * from './SocialAuth';
 export * from './Header';
 export * from './Modal';
 export * from './FieldFile';
+export * from './ChatCard';
+export * from './Avatar';
