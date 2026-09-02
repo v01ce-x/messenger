@@ -2,25 +2,31 @@ import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ChatService } from './chat.service';
 import { Authorization } from '../user/decorators/authorization.decorator';
 import { Authorized } from '../user/decorators/authorized.decorator';
-import { CreateGroupChatDto, OpenChatDto } from './dto/chat.dto';
+import { CreateGroupChatDto } from './dto/chat.dto';
 
 @Controller('chat')
 export class ChatController {
   constructor(private chatService: ChatService) {}
 
-  @Post('/private')
+  @Get('/all')
   @Authorization()
-  openPrivateChat(
-    @Authorized('id') currentUserId: string,
-    @Body() dto: OpenChatDto,
-  ) {
-    return this.chatService.openPrivateChat(currentUserId, dto);
+  findChats(@Authorized('id') currentUserId: string) {
+    return this.chatService.findChats(currentUserId);
   }
 
-  @Get('/group/:groupId')
+  @Post('/:chatId')
   @Authorization()
-  openGroupChat(@Param('groupId') groupId: string) {
-    return this.chatService.openGroupChat(groupId);
+  async openPrivateChat(
+    @Authorized('id') currentUserId: string,
+    @Param('chatId') chatId: string,
+  ) {
+    return await this.chatService.openPrivateChat(currentUserId, chatId);
+  }
+
+  @Get('/:chatId')
+  @Authorization()
+  openGroupChat(@Param('chatId') chatId: string) {
+    return this.chatService.openGroupChat(chatId);
   }
 
   @Post('/group')
@@ -32,9 +38,12 @@ export class ChatController {
     return this.chatService.createGroupChat(currentUserId, dto);
   }
 
-  @Get('/all')
+  @Get('/messages/:chatId')
   @Authorization()
-  findChats(@Authorized('id') currentUserId: string) {
-    return this.chatService.findChats(currentUserId);
+  findMessage(
+    @Param('chatId') chatId: string,
+    @Authorized('id') currentUserId: string,
+  ) {
+    return this.chatService.findMessages(chatId, currentUserId);
   }
 }

@@ -28,13 +28,3 @@ export class CreateGroupChatDto {
   @IsOptional()
   avatar?: string;
 }
-
-export class OpenChatDto {
-  @IsString()
-  @IsOptional()
-  otherUserId?: string;
-
-  @IsString()
-  @IsOptional()
-  chatId?: string;
-}

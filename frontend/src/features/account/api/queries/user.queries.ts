@@ -41,12 +41,14 @@ export const useRegister = () => {
 export const useLogout = () => {
   const removeToken = useAuthStore((state) => state.removeToken);
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: userService.logout,
 
     onSuccess: () => {
       removeToken();
+      queryClient.clear();
       navigate('/login');
     },
   });

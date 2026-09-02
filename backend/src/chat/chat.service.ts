@@ -1,19 +1,39 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateGroupChatDto, OpenChatDto } from './dto/chat.dto';
+import { CreateGroupChatDto } from './dto/chat.dto';
 import { CreateMessageDto } from './dto/message.dto';
+import { UserChat } from '@prisma/client';
 
 @Injectable()
 export class ChatService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  private findMessages(chatId: string) {
-    return this.prismaService.message.findMany({
+  async findMessages(chatId: string, currentUserId: string) {
+    return await this.prismaService.message.findMany({
       where: {
         chatId: chatId,
+        chat: {
+          userChats: {
+            some: { userId: currentUserId },
+          },
+        },
       },
       orderBy: {
         createdAt: 'asc',
+      },
+      select: {
+        id: true,
+        chatId: true,
+        text: true,
+        createdAt: true,
+        sender: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            avatar: true,
+          },
+        },
       },
     });
   }
@@ -32,6 +52,7 @@ export class ChatService {
           include: {
             user: {
               select: {
+                id: true,
                 firstName: true,
                 lastName: true,
                 avatar: true,
@@ -52,9 +73,10 @@ export class ChatService {
         };
       }
 
-      const interlocutor = chat.userChats.find((user) => {
-        return user.userId !== currentUserId;
-      })?.user;
+      const memberRelation = chat.userChats.find(
+        (member) => member.userId !== currentUserId,
+      );
+      const interlocutor = memberRelation?.user;
 
       return {
         id: chat.id,
@@ -78,28 +100,31 @@ export class ChatService {
   }
 
   async createPrivateChat(currentUserId: string, otherUserId: string) {
-    const newChat = await this.prismaService.chat.create({
+    return await this.prismaService.chat.create({
       data: {
         type: 'PRIVATE',
         userChats: {
           create: [
-            {
-              userId: currentUserId,
-              userRole: 'ADMIN',
-            },
-            {
-              userId: otherUserId,
-              userRole: 'ADMIN',
-            },
+            { userId: currentUserId, userRole: 'ADMIN' },
+            { userId: otherUserId, userRole: 'ADMIN' },
           ],
         },
       },
+      include: {
+        userChats: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                avatar: true,
+              },
+            },
+          },
+        },
+      },
     });
-
-    return {
-      chatId: newChat.id,
-      messages: [],
-    };
   }
 
   async createGroupChat(currentUserId: string, dto: CreateGroupChatDto) {
@@ -136,19 +161,44 @@ export class ChatService {
 
     return {
       chatId: newChat.id,
-      messages: [],
     };
   }
 
-  async openPrivateChat(currentUserId: string, dto: OpenChatDto) {
-    if (currentUserId === dto.otherUserId) {
+  async openPrivateChat(currentUserId: string, chatOrUserId: string) {
+    if (currentUserId === chatOrUserId) {
       return {
         message: 'Нельзя открыть чат с самим собой',
       };
     }
 
-    if (dto.otherUserId) {
-      const chat = await this.prismaService.chat.findFirst({
+    const includeUsersConfig = {
+      userChats: {
+        include: {
+          user: {
+            select: {
+              id: true,
+              firstName: true,
+              lastName: true,
+              avatar: true,
+            },
+          },
+        },
+      },
+    };
+
+    let chat: any = null;
+
+    const chatByDirectId = await this.prismaService.chat.findFirst({
+      where: {
+        id: chatOrUserId,
+      },
+      include: includeUsersConfig,
+    });
+
+    if (chatByDirectId) {
+      chat = chatByDirectId;
+    } else {
+      const existingPrivateChat = await this.prismaService.chat.findFirst({
         where: {
           type: 'PRIVATE',
           AND: [
@@ -159,45 +209,34 @@ export class ChatService {
             },
             {
               userChats: {
-                some: { userId: dto.otherUserId },
+                some: { userId: chatOrUserId },
               },
             },
           ],
         },
+        include: includeUsersConfig,
       });
 
-      if (!chat) {
-        return await this.createPrivateChat(currentUserId, dto.otherUserId);
+      if (existingPrivateChat) {
+        chat = existingPrivateChat;
       }
-
-      const messages = await this.findMessages(chat.id);
-
-      return {
-        chatId: chat.id,
-        messages,
-      };
-    } else if (dto.chatId) {
-      const chat = await this.prismaService.chat.findFirst({
-        where: {
-          id: dto.chatId,
-        },
-      });
-
-      if (!chat) {
-        throw new NotFoundException('Чат не найден');
-      }
-
-      const messages = await this.findMessages(chat.id);
-
-      return {
-        chatId: chat.id,
-        messages,
-      };
-    } else {
-      return {
-        message: 'Передавйте chatId или otherUserId',
-      };
     }
+
+    if (!chat) {
+      chat = await this.createPrivateChat(currentUserId, chatOrUserId);
+    }
+
+    const memberRelation = chat.userChats.find(
+      (member: any) => member.userId !== currentUserId,
+    );
+    const interlocutor = memberRelation?.user;
+
+    return {
+      id: chat.id,
+      type: chat.type,
+      title: `${interlocutor.firstName} ${interlocutor.lastName}`,
+      avatar: interlocutor.avatar,
+    };
   }
 
   async openGroupChat(groupId: string) {
@@ -214,11 +253,8 @@ export class ChatService {
       throw new NotFoundException('Такого чата не существует');
     }
 
-    const messages = await this.findMessages(chat.id);
-
     return {
       chatId: chat.id,
-      messages,
     };
   }
 }

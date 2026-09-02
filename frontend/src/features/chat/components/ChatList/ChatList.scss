@@ -1,0 +1,21 @@
+.chats {
+  &__list {
+    position: relative;
+
+    display: grid;
+
+    row-gap: 8px;
+  }
+
+  &__item--active {
+    position: absolute;
+
+    height: 76px;
+    width: 4px;
+
+    background-color: var(--color-primary);
+
+    border-radius: var(--radius-lg);
+    transition: 0.3s ease-in-out;
+  }
+}

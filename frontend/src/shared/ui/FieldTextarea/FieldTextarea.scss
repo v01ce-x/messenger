@@ -1,0 +1,19 @@
+.field {
+  &__textarea {
+    width: 100%;
+
+    background-color: var(--color-navy);
+    color: var(--color-text);
+
+    padding: 12px;
+
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+
+    &::placeholder {
+      font-weight: 500;
+
+      color: rgba(255, 255, 255, 0.5);
+    }
+  }
+}

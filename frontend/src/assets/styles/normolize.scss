@@ -12,6 +12,19 @@ input {
   background: none;
 }
 
+textarea {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  resize: none;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 a {
   text-decoration: none;
   color: inherit;

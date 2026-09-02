@@ -1,0 +1,70 @@
+.message {
+
+  &--me {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &--someone {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  &__inner {
+    display: flex;
+    align-items: flex-end;
+
+    width: 70%;
+
+    column-gap: 10px;
+
+    &--me {
+      flex-direction: row-reverse;
+    }
+
+    &--someone {
+      flex-direction: row;
+    }
+  }
+
+  &__avatar {
+    width: 30px;
+    height: 30px;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+
+    row-gap: 4px;
+
+    &--me {
+      align-items: flex-end;
+    }
+
+    &--someone {
+      align-items: flex-start;
+    }
+  }
+
+  &__text {
+    padding: 12px 20px;
+
+    box-shadow: var(--shadow-sm);
+
+    &--me {
+      background-color: var(--color-primary-darker);
+      border-radius: var(--radius-md) var(--radius-md) 3px var(--radius-md);
+    }
+
+    &--someone {
+      background-color: var(--color-surface);
+      border-radius: var(--radius-md) var(--radius-md) var(--radius-md) 3px;
+    }
+  }
+
+  &__createdAt {
+    font-size: 0.7rem;
+    color: var(--color-text-faint)
+  }
+}

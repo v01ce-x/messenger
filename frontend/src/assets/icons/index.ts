@@ -22,3 +22,5 @@ export { default as SettingsIcon } from './settings.svg?react';
 export { default as DownloadIcon } from './download.svg?react';
 // @ts-ignore
 export { default as CrossIcon } from './cross.svg?react';
+// @ts-ignore
+export { default as EnterMessageIcon } from './enter-message.svg?react';
