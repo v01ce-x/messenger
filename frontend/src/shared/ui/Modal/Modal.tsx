@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './Modal.scss';
-import { CrossIcon } from '@/assets/icons';
+import { CrossIcon } from '@/shared/ui';
 
 interface Props {
   children: React.ReactNode;

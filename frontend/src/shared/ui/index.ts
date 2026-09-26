@@ -10,3 +10,5 @@ export * from './FieldFile';
 export * from './ChatCard';
 export * from './Avatar';
 export * from './Message';
+export * from './Notification';
+export * from './Icons';

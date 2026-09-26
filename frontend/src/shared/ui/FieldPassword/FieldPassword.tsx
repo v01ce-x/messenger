@@ -1,6 +1,6 @@
 import { useId, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { EyeIcon, LockIcon } from '@/assets/icons';
+import { EyeIcon, LockIcon } from '@/shared/ui';
 import './FieldPassword.scss';
 
 interface Props {

@@ -35,12 +35,8 @@ const Message = (props: Props) => {
           avatar={sender.avatar}
           title={`${sender.firstName} ${sender.lastName}`}
         />
-        <div
-          className={`message__content ${getMessageClassName('content')}`}
-        >
-          <span
-            className={`message__text ${getMessageClassName('text')}`}
-          >
+        <div className={`message__content ${getMessageClassName('content')}`}>
+          <span className={`message__text ${getMessageClassName('text')}`}>
             {text}
           </span>
           <span className="message__createdAt">{adapterDate(createdAt)}</span>

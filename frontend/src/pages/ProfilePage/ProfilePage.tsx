@@ -1,9 +1,15 @@
-import { CameraIcon, EditIcon, InfoIcon, SettingsIcon } from '@/assets/icons';
 import './ProfilePage.scss';
-import { Avatar, Button } from '@/shared/ui';
+import {
+  Avatar,
+  Button,
+  CameraIcon,
+  EditIcon,
+  InfoIcon,
+  SettingsIcon,
+} from '@/shared/ui';
 import { useLogout, useProfile } from '@/features/account';
 import { useModal } from '@/shared/lib';
-import { adapterUrl } from '@/shared/utils/adapterUrl.ts';
+import { adapterUrl } from '@/shared/utils';
 
 const ProfilePage = () => {
   const { data: user, isLoading } = useProfile();

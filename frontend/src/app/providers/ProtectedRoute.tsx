@@ -1,7 +1,6 @@
 import { useAuthStore, useProfile } from '@/features/account';
 import { Link, Navigate, Outlet } from 'react-router';
-import { Avatar, FieldInput, Header } from '@/shared/ui';
-import { SearchIcon } from '@/assets/icons';
+import { Avatar, FieldInput, Header, SearchIcon } from '@/shared/ui';
 import { Routes } from '@/shared/lib';
 import ModalProvider from './ModalProvider';
 
@@ -10,7 +9,7 @@ const ProtectedRoute = () => {
   const { data: user } = useProfile();
 
   if (!isAuth) {
-    return <Navigate to="/login" />;
+    return <Navigate to={Routes.login} replace={true} />;
   }
 
   return (

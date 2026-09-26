@@ -1,5 +1,10 @@
-import { Button, FieldInput, FieldPassword } from '@/shared/ui';
-import { LoginIcon, UserIcon } from '@/assets/icons';
+import {
+  Button,
+  FieldInput,
+  FieldPassword,
+  LoginIcon,
+  UserIcon,
+} from '@/shared/ui';
 import {
   registerSchema,
   type RegisterSchema,

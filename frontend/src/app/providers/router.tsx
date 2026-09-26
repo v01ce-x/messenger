@@ -22,9 +22,9 @@ export const router = createBrowserRouter([
         children: [
           {
             path: ':id',
-            element: <ChatWindow />
-          }
-        ]
+            element: <ChatWindow />,
+          },
+        ],
       },
       {
         path: Routes.profile,

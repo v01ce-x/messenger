@@ -1,0 +1,13 @@
+export { default as LoginIcon } from './LoginIcon.tsx';
+export { default as EyeIcon } from './EyeIcon.tsx';
+export { default as LockIcon } from './LockIcon.tsx';
+export { default as GoogleIcon } from './GoogleIcon.tsx';
+export { default as UserIcon } from './UserIcon.tsx';
+export { default as SearchIcon } from './SearchIcon.tsx';
+export { default as EditIcon } from './EditIcon.tsx';
+export { default as CameraIcon } from './CameraIcon.tsx';
+export { default as InfoIcon } from './InfoIcon.tsx';
+export { default as SettingsIcon } from './SettingsIcon.tsx';
+export { default as DownloadIcon } from './DownloadIcon.tsx';
+export { default as CrossIcon } from './CrossIcon.tsx';
+export { default as EnterMessageIcon } from './EnterMessageIcon.tsx';

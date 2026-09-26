@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { GoogleIcon } from '@/assets/icons';
+import { GoogleIcon } from '@/shared/ui';
 
 interface SocialAuth {
   id: number;

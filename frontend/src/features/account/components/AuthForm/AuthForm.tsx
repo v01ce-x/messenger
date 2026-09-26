@@ -1,4 +1,4 @@
-import { LoginIcon } from '@/assets/icons';
+import { LoginIcon } from '@/shared/ui';
 import { Button, FieldCheckbox, FieldInput, FieldPassword } from '@/shared/ui';
 import { loginSchema, type LoginSchema } from '@/features/account';
 import { useForm } from 'react-hook-form';

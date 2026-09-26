@@ -1,10 +1,8 @@
-import { useChatById, useMessages } from '@/features/chat/api';
-import { Avatar, FieldTextarea } from '@/shared/ui';
-import './ChatWindow.scss';
-import { useAuthStore } from '@/features/account';
-import Message from '@/shared/ui/Message/Message.tsx';
-import { EnterMessageIcon } from '@/assets/icons';
 import React, { useState } from 'react';
+import { useChatById, useMessages } from '@/features/chat/api';
+import { Avatar, FieldTextarea, EnterMessageIcon, Message } from '@/shared/ui';
+import { useAuthStore } from '@/features/account';
+import './ChatWindow.scss';
 
 const ChatWindow = () => {
   const {
@@ -26,6 +24,7 @@ const ChatWindow = () => {
     if (event.key === 'Enter') {
       event.preventDefault();
       sendMessage();
+      console.log(messages);
     }
   };
 
@@ -46,7 +45,7 @@ const ChatWindow = () => {
 
       <div className="chat-window__body">
         <div className="chat-window__messages">
-          {messages &&
+          {messages && messages.length ? (
             messages.map((msg) => (
               <Message
                 key={msg.id}
@@ -55,7 +54,10 @@ const ChatWindow = () => {
                 sender={msg.sender}
                 isMe={msg.sender.id === userId}
               />
-            ))}
+            ))
+          ) : (
+            <span></span>
+          )}
         </div>
         <div className="chat-window__textarea">
           <FieldTextarea

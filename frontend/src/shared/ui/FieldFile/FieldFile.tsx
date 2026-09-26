@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { DownloadIcon } from '@/assets/icons';
+import { DownloadIcon } from '@/shared/ui';
 import './FieldFile.scss';
 
 interface FieldFileProps {

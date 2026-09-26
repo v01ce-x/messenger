@@ -8,7 +8,7 @@ import {
   useProfile,
 } from '@/features/account';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { UserIcon } from '@/assets/icons';
+import { UserIcon } from '@/shared/ui';
 
 const EditProfileForm = () => {
   const [coverFile, setCoverFile] = useState<File | null>();

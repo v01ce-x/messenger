@@ -98,7 +98,9 @@ export class UserService {
     });
 
     if (existUser) {
-      throw new ConflictException('Пользователь с такой почтой уже существует');
+      throw new ConflictException(
+        'Пользователь с таким логином уже существует',
+      );
     }
 
     const salt = await bcrypt.genSalt(10);
