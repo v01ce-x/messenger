@@ -1,4 +1,4 @@
-import { useChats } from '@/features/chat/api';
+import { useChats } from '@/features/chat';
 import { useState } from 'react';
 import { ChatCard } from '@/shared/ui';
 import './ChatList.scss';

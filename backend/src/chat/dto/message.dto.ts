@@ -9,3 +9,9 @@ export class CreateMessageDto {
   @IsNotEmpty()
   text: string;
 }
+
+export class JoinChatDto {
+  @IsString()
+  @IsNotEmpty()
+  chatId: string;
+}

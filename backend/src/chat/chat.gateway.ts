@@ -7,7 +7,7 @@ import {
 } from '@nestjs/websockets';
 import { ChatService } from './chat.service';
 import { Server, Socket } from 'socket.io';
-import { CreateMessageDto } from './dto/message.dto';
+import { CreateMessageDto, JoinChatDto } from './dto/message.dto';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 
@@ -27,11 +27,49 @@ export class ChatGateway {
   ) {}
 
   handleConnection(client: Socket) {
-    console.log(client.id);
+    const authHeader =
+      client.handshake.auth?.authorization ??
+      client.handshake.headers.authorization ??
+      client.handshake.query?.token;
+
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      client.disconnect(true);
+      return;
+    }
+
+    const token = authHeader.split(' ')[1];
+
+    try {
+      const payload = this.jwtService.verify<{ id: string }>(token, {
+        secret: this.configService.getOrThrow('JWT_SECRET'),
+      });
+
+      client.data.userId = payload.id;
+    } catch {
+      client.disconnect(true);
+    }
   }
 
-  handleDisconnect(client: Socket) {
-    console.log(client.id);
+  @SubscribeMessage('joinChat')
+  async handleJoin(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() dto: JoinChatDto,
+  ) {
+    const userId = client.data.userId;
+    const isMember = await this.chatService.isMember(dto.chatId, userId);
+
+    if (!isMember) return { message: 'Доступ запрещён' };
+
+    await client.join(`chat:${dto.chatId}`);
+    return { ok: true };
+  }
+
+  @SubscribeMessage('leaveChat')
+  async handleLeave(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() dto: { chatId: string },
+  ) {
+    client.leave(`chat:${dto.chatId}`);
   }
 
   @SubscribeMessage('sendMessage')
@@ -39,28 +77,23 @@ export class ChatGateway {
     @ConnectedSocket() client: Socket,
     @MessageBody() dto: CreateMessageDto,
   ) {
-    const authHeader = client.handshake.headers.authorization;
+    const isMember = await this.chatService.isMember(
+      dto.chatId,
+      client.data.userId,
+    );
 
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return {
-        message: 'Пользователь не авторизован',
-      };
+    if (!isMember) {
+      client.disconnect();
+      return;
     }
 
-    const token = authHeader.split(' ')[1];
-
     try {
-      const payload = this.jwtService.verify(token, {
-        secret: this.configService.getOrThrow('JWT_SECRET'),
-      });
+      const message = await this.chatService.sendMessage(
+        client.data.userId,
+        dto,
+      );
 
-      const currentUserId = payload.id;
-
-      const message = this.chatService.sendMessage(currentUserId, dto);
-
-      console.log(message);
-
-      this.server.to(dto.chatId).emit('newMessage', message);
+      this.server.to(`chat:${dto.chatId}`).emit('newMessage', message);
 
       return message;
     } catch (err) {

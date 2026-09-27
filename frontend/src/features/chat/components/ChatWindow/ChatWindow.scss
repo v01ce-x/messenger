@@ -3,15 +3,23 @@
   flex-direction: column;
   justify-content: space-between;
 
-  padding: 20px;
+  min-height: 0;
+  overflow: hidden;
+  row-gap: 20px;
+
+  padding: 0 20px 20px;
 
   &__header {
     display: flex;
     align-items: center;
 
+    padding: 16px 0;
+
     font-size: 1.1rem;
 
     column-gap: 12px;
+
+    border-bottom: 1px solid var(--color-border);
   }
 
   &__avatar {
@@ -21,17 +29,29 @@
 
   &__body {
     display: grid;
+    grid-template-rows: minmax(0, 1fr) auto;
+
+    flex: 1;
+    min-height: 0;
+
     row-gap: 20px;
   }
 
   &__messages {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     row-gap: 8px;
+
+    min-height: 0;
+
+    overflow: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 
   &__textarea {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
 
     column-gap: 8px;
   }

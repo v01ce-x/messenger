@@ -1,6 +1,14 @@
 .field {
   &__textarea {
-    width: 100%;
+    flex: 1;
+    min-width: 0;
+    min-height: 46px;
+    max-height: 105px;
+
+    font: inherit;
+    line-height: 1.45;
+
+    resize: none;
 
     background-color: var(--color-navy);
     color: var(--color-text);

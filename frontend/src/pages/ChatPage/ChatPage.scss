@@ -1,21 +1,125 @@
 .chats {
-  &__container {
-    display: grid;
-    grid-template-columns: 2fr 5fr;
-    flex: 1;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 16px;
 
-    padding: 0 12px;
-  }
+  flex: 1;
+  min-height: 0;
+
+  padding: 4px 20px 20px;
 
   &__aside {
-    padding: 20px 8px;
+    display: flex;
+    flex-direction: column;
 
-    border-right: 2px solid var(--color-surface);
+    min-height: 0;
+    padding: 18px 10px 10px;
 
-    & > div {
-      display: grid;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+  }
 
-      row-gap: 12px;
-    }
+  &__head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 0 8px 12px;
+  }
+
+  &__title {
+    font-size: 1rem;
+    font-weight: 700;
+
+    color: var(--color-text);
+  }
+
+  &__count {
+    padding: 1px 8px;
+
+    font-size: 0.75rem;
+    font-weight: 600;
+
+    color: var(--color-text-faint);
+
+    background-color: var(--color-surface-alt);
+    border-radius: var(--radius-round);
+  }
+
+  &__body {
+    flex: 1;
+    min-height: 0;
+
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  &__content {
+    position: relative;
+    min-height: 0;
+    overflow: hidden;
+
+    display: grid;
+    grid-template-rows: 1fr;
+
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+  }
+
+  &__placeholder {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 32px;
+    text-align: center;
+  }
+
+  &__placeholder-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 64px;
+    height: 64px;
+    margin-bottom: 18px;
+
+    color: var(--color-primary);
+
+    background-color: var(--color-primary-soft);
+    border-radius: var(--radius-round);
+  }
+
+  &__placeholder-svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  &__placeholder-title {
+    margin-bottom: 8px;
+
+    font-size: 1.15rem;
+    font-weight: 700;
+
+    color: var(--color-text);
+  }
+
+  &__placeholder-text {
+    max-width: 300px;
+
+    font-size: 0.9rem;
+    line-height: 1.5;
+
+    color: var(--color-text-faint);
+  }
+
+  @media (max-width: 900px) {
+    grid-template-columns: 250px 1fr;
   }
 }

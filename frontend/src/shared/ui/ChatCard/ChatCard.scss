@@ -9,8 +9,12 @@
   transition: 0.2s;
   cursor: pointer;
 
-  &:hover {
-    background-color: var(--color-surface);
+  &:not(&--active):hover {
+    background-color: var(--color-surface-alt);
+  }
+
+  &:not(&--active):active {
+    background-color: var(--color-bg);
   }
 
   &--active {

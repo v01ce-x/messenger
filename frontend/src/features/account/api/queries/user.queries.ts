@@ -8,7 +8,7 @@ import {
 import { USER_QUERY_KEYS } from '@/features/account/api/queries/user.keys.ts';
 import { useNavigate } from 'react-router';
 import { useModal } from '@/shared/lib';
-import { useNotificationStore } from '@/shared/hooks';
+import { useNotificationStore, useSocketStore } from '@/shared/hooks';
 import type { AxiosError } from 'axios';
 
 interface Error {
@@ -72,6 +72,7 @@ export const useLogout = () => {
   const showNotification = useNotificationStore(
     (state) => state.showNotification,
   );
+  const setConnectedSocket = useSocketStore((state) => state.setConnected);
 
   return useMutation({
     mutationFn: userService.logout,
@@ -81,6 +82,7 @@ export const useLogout = () => {
       queryClient.clear();
       navigate('/login');
       showNotification('Вы успешно вышли из аккаунта', 'success');
+      setConnectedSocket(false);
     },
   });
 };

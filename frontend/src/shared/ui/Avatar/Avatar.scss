@@ -1,0 +1,15 @@
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: bold;
+
+  border-radius: var(--radius-round);
+
+  background-color: var(--color-primary-dark);
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}

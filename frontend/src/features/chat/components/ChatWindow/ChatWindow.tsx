@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
-import { useChatById, useMessages } from '@/features/chat/api';
+import React, { useEffect, useState } from 'react';
+import { useChatById, useMessages, useNewMessage } from '@/features/chat';
 import { Avatar, FieldTextarea, EnterMessageIcon, Message } from '@/shared/ui';
 import { useAuthStore } from '@/features/account';
+import { getSocket } from '@/shared/websocket';
+import { useParams } from 'react-router';
+import { useSocketStore } from '@/shared/hooks';
 import './ChatWindow.scss';
 
 const ChatWindow = () => {
@@ -12,12 +15,26 @@ const ChatWindow = () => {
   } = useChatById();
 
   const { data: messages } = useMessages(isChatReady);
+  const param = useParams<{ id: string }>();
+  const chatId = param.id;
 
   const [message, setMessage] = useState('');
   const userId = useAuthStore((state) => state.userId);
+  const isConnectedSocket = useSocketStore((state) => state.isConnected);
+
+  useNewMessage(chatId);
 
   const sendMessage = () => {
-    console.log(message);
+    const socket = getSocket();
+
+    if (!socket) {
+      console.log('Not connected');
+      return;
+    }
+
+    socket.emit('sendMessage', { chatId, text: message }, () => {
+      setMessage('');
+    });
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -27,6 +44,18 @@ const ChatWindow = () => {
       console.log(messages);
     }
   };
+
+  useEffect(() => {
+    const socket = getSocket();
+
+    if (!isConnectedSocket || !chatId || !socket) return;
+
+    socket.emit('joinChat', { chatId });
+
+    return () => {
+      socket.emit('leaveChat', { chatId });
+    };
+  }, [isConnectedSocket, chatId]);
 
   return (
     <div className="chat-window">

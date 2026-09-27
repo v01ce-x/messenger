@@ -7,6 +7,15 @@ import { CreateMessageDto } from './dto/message.dto';
 export class ChatService {
   constructor(private readonly prismaService: PrismaService) {}
 
+  async isMember(chatId: string, userId: string) {
+    return await this.prismaService.userChat.findFirst({
+      where: {
+        chatId: chatId,
+        userId: userId,
+      },
+    });
+  }
+
   async findMessages(chatId: string, currentUserId: string) {
     return await this.prismaService.message.findMany({
       where: {
@@ -94,6 +103,20 @@ export class ChatService {
         chatId: dto.chatId,
         senderId: senderId,
         text: dto.text,
+      },
+      select: {
+        id: true,
+        chatId: true,
+        text: true,
+        createdAt: true,
+        sender: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            avatar: true,
+          },
+        },
       },
     });
   }
@@ -222,6 +245,18 @@ export class ChatService {
     }
 
     if (!chat) {
+      const otherUser = await this.prismaService.user.findUnique({
+        where: {
+          id: chatOrUserId,
+        },
+        select: {
+          id: true,
+          firstName: true,
+          lastName: true,
+          avatar: true,
+        },
+      });
+
       chat = await this.createPrivateChat(currentUserId, chatOrUserId);
     }
 

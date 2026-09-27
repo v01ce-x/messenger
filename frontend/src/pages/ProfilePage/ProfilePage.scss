@@ -68,7 +68,9 @@
   &__avatar {
     width: 128px;
     height: 128px;
+    font-size: 2rem;
 
+    text-transform: uppercase;
     border: 8px solid var(--color-bg)
   }
 

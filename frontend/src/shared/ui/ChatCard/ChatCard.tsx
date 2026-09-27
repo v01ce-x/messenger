@@ -1,7 +1,7 @@
-import './ChatCard.scss';
 import { Avatar } from '@/shared/ui';
 import { Routes } from '@/shared/lib';
 import { Link } from 'react-router';
+import './ChatCard.scss';
 
 interface Props {
   title: string;

@@ -14,22 +14,27 @@
     display: flex;
     align-items: flex-end;
 
-    width: 70%;
+    width: fit-content;
+    max-width: 70%;
 
     column-gap: 10px;
 
     &--me {
       flex-direction: row-reverse;
+      margin-left: auto;
     }
 
     &--someone {
       flex-direction: row;
+      margin-right: auto;
     }
   }
 
   &__avatar {
     width: 30px;
     height: 30px;
+    font-size: 0.7rem;
+    flex-shrink: 0;
   }
 
   &__content {
@@ -48,23 +53,32 @@
   }
 
   &__text {
-    padding: 12px 20px;
+    max-width: 100%;
+    padding: 10px 16px;
+
+    font-size: 0.95rem;
+    line-height: 1.45;
+
+    overflow-wrap: anywhere;
 
     box-shadow: var(--shadow-sm);
 
     &--me {
+      color: var(--color-text);
       background-color: var(--color-primary-darker);
       border-radius: var(--radius-md) var(--radius-md) 3px var(--radius-md);
     }
 
     &--someone {
-      background-color: var(--color-surface);
+      background-color: var(--color-surface-alt);
       border-radius: var(--radius-md) var(--radius-md) var(--radius-md) 3px;
     }
   }
 
   &__createdAt {
     font-size: 0.7rem;
-    color: var(--color-text-faint)
+    line-height: 1;
+
+    color: var(--color-text-faint);
   }
 }

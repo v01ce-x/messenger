@@ -1,1 +1,1 @@
-export * from './user.queries.ts';
+export * from './chat.queries.ts';

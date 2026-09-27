@@ -1,4 +1,5 @@
 import { adapterUrl } from '@/shared/utils';
+import './Avatar.scss';
 
 interface Props {
   title: string;

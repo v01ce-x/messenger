@@ -2,7 +2,7 @@ import { createBrowserRouter } from 'react-router';
 import { AuthPage, ChatPage, ProfilePage, RegisterPage } from '@/pages';
 import { ProtectedRoute } from '@/app/providers';
 import { Routes } from '@/shared/lib';
-import { ChatWindow } from '@/features/chat/components';
+import { ChatWindow } from '@/features/chat';
 
 export const router = createBrowserRouter([
   {
