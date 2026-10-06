@@ -10,3 +10,10 @@ export interface UserProfile {
   avatar: string | null;
   cover: string | null;
 }
+
+export interface UserSearchResult {
+  id: string;
+  firstName: string;
+  lastName: string;
+  avatar: string | null;
+}

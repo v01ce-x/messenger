@@ -1,12 +1,11 @@
-import { useAuthStore, useProfile } from '@/features/account';
-import { Link, Navigate, Outlet } from 'react-router';
-import { Avatar, FieldInput, Header, SearchIcon } from '@/shared/ui';
+import { useAuthStore } from '@/features/account';
+import { Navigate, Outlet } from 'react-router';
 import { Routes } from '@/shared/lib';
 import ModalProvider from './ModalProvider';
+import { Header } from '@/app/layout';
 
 const ProtectedRoute = () => {
   const isAuth = useAuthStore((state) => state.isAuth);
-  const { data: user } = useProfile();
 
   if (!isAuth) {
     return <Navigate to={Routes.login} replace={true} />;
@@ -14,30 +13,7 @@ const ProtectedRoute = () => {
 
   return (
     <div className="wrapper">
-      <Header>
-        <Link to={Routes.chat}>
-          <h1>Nexo</h1>
-        </Link>
-
-        <FieldInput placeholder="Поиск людей и групп" className="field__search">
-          <SearchIcon className="icon--18" />
-        </FieldInput>
-
-        <Link to={Routes.profile} className="header__profile">
-          {user ? (
-            <Avatar
-              title={`${user.firstName} ${user.lastName}`}
-              avatar={user.avatar}
-              className="header__avatar"
-            />
-          ) : (
-            <div className="header__avatar">
-              <span>NN</span>
-            </div>
-          )}
-          <span>{user ? user.firstName + ' ' + user.lastName : 'No Name'}</span>
-        </Link>
-      </Header>
+      <Header />
 
       <main className="main">
         <Outlet />

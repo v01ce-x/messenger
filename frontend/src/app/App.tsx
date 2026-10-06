@@ -3,7 +3,7 @@ import { router } from '@/app/providers';
 import { useAuthStore, userService } from '@/features/account';
 import { useEffect, useState } from 'react';
 import { Notification } from '@/shared/ui';
-import { useNotificationStore, useSocketStore } from '@/shared/hooks';
+import { useNotificationStore, useSocketStore } from '@/shared/store';
 import { connectSocket } from '@/shared/websocket';
 
 const App = () => {

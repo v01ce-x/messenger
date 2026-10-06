@@ -62,6 +62,7 @@ const FieldInput = (props: Props) => {
           type={type}
           id={inputId}
           placeholder={placeholder}
+          spellCheck={false}
           className="field__input"
           {...inputProps}
         />

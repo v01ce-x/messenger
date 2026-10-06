@@ -260,4 +260,37 @@ export class UserService {
       success: true,
     };
   }
+
+  async searchUsers(currentUserId: string, searchValue: string) {
+    const words = searchValue.split(' ');
+
+    const users = await this.prismaService.user.findMany({
+      where: {
+        AND: words.map((word) => ({
+          OR: [
+            {
+              firstName: {
+                contains: word,
+                mode: 'insensitive',
+              },
+            },
+            {
+              lastName: {
+                contains: word,
+                mode: 'insensitive',
+              },
+            },
+          ],
+        })),
+      },
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+        avatar: true,
+      },
+    });
+
+    return users.filter((user) => user.id !== currentUserId);
+  }
 }

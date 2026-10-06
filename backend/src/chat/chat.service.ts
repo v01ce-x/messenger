@@ -54,6 +54,9 @@ export class ChatService {
             userId: currentUserId,
           },
         },
+        messages: {
+          some: {}
+        }
       },
       include: {
         userChats: {
@@ -72,28 +75,28 @@ export class ChatService {
     });
 
     return chats.map((chat) => {
-      if (chat.type === 'GROUP') {
+        if (chat.type === 'GROUP') {
+            return {
+                id: chat.id,
+                type: chat.type,
+                title: chat.title,
+                avatar: chat.avatar,
+            };
+        }
+
+        const memberRelation = chat.userChats.find(
+            (member) => member.userId !== currentUserId
+        );
+        const interlocutor = memberRelation?.user;
+
         return {
-          id: chat.id,
-          type: chat.type,
-          title: chat.title,
-          avatar: chat.avatar,
+            id: chat.id,
+            type: chat.type,
+            title: interlocutor
+                ? `${interlocutor.firstName} ${interlocutor.lastName}`
+                : 'Удалённый аккаунт',
+            avatar: interlocutor?.avatar || null,
         };
-      }
-
-      const memberRelation = chat.userChats.find(
-        (member) => member.userId !== currentUserId,
-      );
-      const interlocutor = memberRelation?.user;
-
-      return {
-        id: chat.id,
-        type: chat.type,
-        title: interlocutor
-          ? `${interlocutor.firstName} ${interlocutor.lastName}`
-          : 'Удалённый аккаунт',
-        avatar: interlocutor?.avatar || null,
-      };
     });
   }
 
@@ -245,18 +248,6 @@ export class ChatService {
     }
 
     if (!chat) {
-      const otherUser = await this.prismaService.user.findUnique({
-        where: {
-          id: chatOrUserId,
-        },
-        select: {
-          id: true,
-          firstName: true,
-          lastName: true,
-          avatar: true,
-        },
-      });
-
       chat = await this.createPrivateChat(currentUserId, chatOrUserId);
     }
 

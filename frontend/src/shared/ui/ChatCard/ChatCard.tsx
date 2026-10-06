@@ -1,5 +1,4 @@
 import { Avatar } from '@/shared/ui';
-import { Routes } from '@/shared/lib';
 import { Link } from 'react-router';
 import './ChatCard.scss';
 
@@ -10,13 +9,15 @@ interface Props {
   avatar?: string;
   className?: string;
   onClick: (id: string) => void;
+  route: string;
 }
 
 const ChatCard = (props: Props) => {
-  const { title, chatId, lastMessage, avatar, className, onClick } = props;
+  const { title, chatId, lastMessage, avatar, className, onClick, route } =
+    props;
 
   return (
-    <Link to={Routes.chatById.replace(':id', chatId)}>
+    <Link to={route}>
       <div className={`chat-card ${className}`} onClick={() => onClick(chatId)}>
         <Avatar title={title} avatar={avatar} className="chat-card__avatar" />
 

@@ -2,6 +2,7 @@ import { useChats } from '@/features/chat';
 import { useState } from 'react';
 import { ChatCard } from '@/shared/ui';
 import './ChatList.scss';
+import { Routes } from '@/shared/lib';
 
 export const ChatList = () => {
   const { data: chats } = useChats();
@@ -35,6 +36,7 @@ export const ChatList = () => {
             title={chat.title}
             avatar={chat.avatar}
             key={chat.id}
+            route={Routes.chatById.replace(':id', chat.id)}
             className={activeChatId === chat.id ? 'chat-card--active' : ''}
             lastMessage="Hello, how are you?"
           />

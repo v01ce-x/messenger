@@ -4,6 +4,7 @@ import type {
   RegisterSchema,
   ResponseToken,
   UserProfile,
+  UserSearchResult,
 } from '@/features/account';
 
 export const userService = {
@@ -42,4 +43,7 @@ export const userService = {
     api
       .patch<{ success: boolean }>('user/profile', data)
       .then((res) => res.data),
+
+  searchUsers: (data: { searchValue?: string }) =>
+    api.post<UserSearchResult[]>('user/search', data).then((res) => res.data),
 };

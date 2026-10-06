@@ -26,7 +26,7 @@ const AuthForm = (props: Props) => {
   return (
     <form className={className} onSubmit={handleSubmit(onSubmit)}>
       <FieldInput
-        label="Придумайте логин"
+        label="Логин"
         placeholder="login123"
         error={formState.errors.login?.message}
         {...register('login')}

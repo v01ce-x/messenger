@@ -105,4 +105,13 @@ export class UserController {
       coverFile,
     );
   }
+
+  @Authorization()
+  @Post('search')
+  async searchUsers(
+    @Authorized('id') currentUserId: string,
+    @Body('searchValue') searchValue: string,
+  ) {
+    return await this.userService.searchUsers(currentUserId, searchValue);
+  }
 }

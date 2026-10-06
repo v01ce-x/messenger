@@ -4,12 +4,14 @@ import {
   type RegisterSchema,
   useAuthStore,
   userService,
+  useSearchStore,
 } from '@/features/account';
 import { USER_QUERY_KEYS } from '@/features/account/api/queries/user.keys.ts';
 import { useNavigate } from 'react-router';
 import { useModal } from '@/shared/lib';
-import { useNotificationStore, useSocketStore } from '@/shared/hooks';
+import { useNotificationStore, useSocketStore } from '@/shared/store';
 import type { AxiosError } from 'axios';
+import { useDebounce } from '@/shared/hooks';
 
 interface Error {
   message: string;
@@ -165,5 +167,16 @@ export const useEditProfile = () => {
       closeModal();
       showNotification('Данные профиля изменены', 'success');
     },
+  });
+};
+
+export const useSearchUsers = () => {
+  const value = useSearchStore((state) => state.searchValue);
+  const searchValue = useDebounce(value);
+
+  return useQuery({
+    queryFn: () => userService.searchUsers({ searchValue }),
+    queryKey: USER_QUERY_KEYS.search(searchValue),
+    enabled: Boolean(searchValue) || searchValue?.length !== 0,
   });
 };

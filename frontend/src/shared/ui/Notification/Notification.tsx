@@ -1,4 +1,4 @@
-import { useNotificationStore } from '@/shared/hooks';
+import { useNotificationStore } from '@/shared/store';
 import { useLayoutEffect, useRef, useState } from 'react';
 import './Notification.scss';
 

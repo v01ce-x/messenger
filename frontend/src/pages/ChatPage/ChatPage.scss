@@ -23,7 +23,7 @@
   &__head {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 16px;
 
     padding: 0 8px 12px;
   }
@@ -41,9 +41,9 @@
     font-size: 0.75rem;
     font-weight: 600;
 
-    color: var(--color-text-faint);
+    color: var(--color-text);
 
-    background-color: var(--color-surface-alt);
+    background-color: var(--color-primary-darker);
     border-radius: var(--radius-round);
   }
 

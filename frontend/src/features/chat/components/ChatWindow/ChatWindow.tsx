@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useChatById, useMessages, useNewMessage } from '@/features/chat';
 import { Avatar, FieldTextarea, EnterMessageIcon, Message } from '@/shared/ui';
 import { useAuthStore } from '@/features/account';
 import { getSocket } from '@/shared/websocket';
 import { useParams } from 'react-router';
-import { useSocketStore } from '@/shared/hooks';
+import { useSocketStore } from '@/shared/store';
 import './ChatWindow.scss';
 
 const ChatWindow = () => {
@@ -13,12 +13,12 @@ const ChatWindow = () => {
     isLoading: isChatLoading,
     isSuccess: isChatReady,
   } = useChatById();
-
   const { data: messages } = useMessages(isChatReady);
   const param = useParams<{ id: string }>();
   const chatId = param.id;
 
   const [message, setMessage] = useState('');
+  const messagesRef = useRef<HTMLDivElement | null>(null);
   const userId = useAuthStore((state) => state.userId);
   const isConnectedSocket = useSocketStore((state) => state.isConnected);
 
@@ -41,7 +41,6 @@ const ChatWindow = () => {
     if (event.key === 'Enter') {
       event.preventDefault();
       sendMessage();
-      console.log(messages);
     }
   };
 
@@ -56,6 +55,12 @@ const ChatWindow = () => {
       socket.emit('leaveChat', { chatId });
     };
   }, [isConnectedSocket, chatId]);
+
+  useLayoutEffect(() => {
+    const element = messagesRef.current;
+
+    if (element) element.scrollTop = element.scrollHeight;
+  }, [messages?.length, chatId]);
 
   return (
     <div className="chat-window">
@@ -73,7 +78,7 @@ const ChatWindow = () => {
       </div>
 
       <div className="chat-window__body">
-        <div className="chat-window__messages">
+        <div className="chat-window__messages" ref={messagesRef}>
           {messages && messages.length ? (
             messages.map((msg) => (
               <Message

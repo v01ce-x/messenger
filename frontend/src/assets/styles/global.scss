@@ -14,6 +14,7 @@ body {
   justify-content: center;
 
   width: 100%;
+  height: 100vh;
 }
 
 .wrapper {
@@ -35,6 +36,17 @@ body {
 
 [class^="icon--"] {
   color: rgba(255, 255, 255, 0.5);
+}
+
+input {
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus,
+  &:-webkit-autofill:active {
+    -webkit-text-fill-color: var(--color-text);
+    -webkit-box-shadow: 0 0 0 1000px var(--color-surface-alt) inset;
+    transition: background-color 600000000s 0s;
+  }
 }
 
 .icon--18 {
